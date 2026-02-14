@@ -1,0 +1,163 @@
+# Complete Student Management System (Beginner Level)
+
+while True:
+    print("\n========== Student Management System ==========")
+    print("1. Add Student")
+    print("2. Show All Students")
+    print("3. Search Student")
+    print("4. Update Student")
+    print("5. Delete Student")
+    print("6. Exit")
+    
+    choice = input("Enter your choice: ")
+    
+    # ---------------- ADD STUDENT ----------------
+    if choice == "1":
+        roll = input("Enter Roll Number: ")
+        name = input("Enter Name: ")
+        age = input("Enter Age: ")
+        dept = input("Enter Department: ")
+        
+        file = open("students.txt", "a")
+        file.write(roll + "," + name + "," + age + "," + dept + "\n")
+        file.close()
+        
+        print("Student added successfully!")
+    
+    # ---------------- SHOW ALL ----------------
+    elif choice == "2":
+        try:
+            file = open("students.txt", "r")
+            data = file.read()
+            file.close()
+            
+            if data == "":
+                print("No records found.")
+            else:
+                print("\nRoll | Name | Age | Department")
+                print("--------------------------------")
+                
+                lines = data.split("\n")
+                i = 0
+                while i < len(lines):
+                    if lines[i] != "":
+                        parts = lines[i].split(",")
+                        print(parts[0] + " | " + parts[1] + " | " + parts[2] + " | " + parts[3])
+                    i = i + 1
+        
+        except:
+            print("No file found yet.")
+    
+    
+    # ---------------- SEARCH STUDENT ----------------
+    elif choice == "3":
+        roll_search = input("Enter Roll Number to search: ")
+        found = False
+        
+        try:
+            file = open("students.txt", "r")
+            lines = file.readlines()
+            file.close()
+            
+            i = 0
+            while i < len(lines):
+                parts = lines[i].strip().split(",")
+                
+                if parts[0] == roll_search:
+                    print("\nStudent Found:")
+                    print("Roll:", parts[0])
+                    print("Name:", parts[1])
+                    print("Age:", parts[2])
+                    print("Department:", parts[3])
+                    found = True
+                    break
+                i = i + 1
+            
+            if found == False:
+                print("Student not found.")
+        
+        except:
+            print("No records available.")
+    
+    
+    # ---------------- UPDATE STUDENT ----------------
+    elif choice == "4":
+        roll_update = input("Enter Roll Number to update: ")
+        updated = False
+        
+        try:
+            file = open("students.txt", "r")
+            lines = file.readlines()
+            file.close()
+            
+            file = open("students.txt", "w")
+            
+            i = 0
+            while i < len(lines):
+                parts = lines[i].strip().split(",")
+                
+                if parts[0] == roll_update:
+                    print("Enter new details:")
+                    new_name = input("New Name: ")
+                    new_age = input("New Age: ")
+                    new_dept = input("New Department: ")
+                    
+                    file.write(roll_update + "," + new_name + "," + new_age + "," + new_dept + "\n")
+                    updated = True
+                else:
+                    file.write(lines[i])
+                
+                i = i + 1
+            
+            file.close()
+            
+            if updated:
+                print("Student updated successfully!")
+            else:
+                print("Student not found.")
+        
+        except:
+            print("No records available.")
+    
+    
+    # ---------------- DELETE STUDENT ----------------
+    elif choice == "5":
+        roll_delete = input("Enter Roll Number to delete: ")
+        deleted = False
+        
+        try:
+            file = open("students.txt", "r")
+            lines = file.readlines()
+            file.close()
+            
+            file = open("students.txt", "w")
+            
+            i = 0
+            while i < len(lines):
+                parts = lines[i].strip().split(",")
+                
+                if parts[0] == roll_delete:
+                    deleted = True
+                else:
+                    file.write(lines[i])
+                
+                i = i + 1
+            
+            file.close()
+            
+            if deleted:
+                print("Student deleted successfully!")
+            else:
+                print("Student not found.")
+        
+        except:
+            print("No records available.")
+    
+    
+    # ---------------- EXIT ----------------
+    elif choice == "6":
+        print("Exiting system... Goodbye Bilal 😎")
+        break
+    
+    else:
+        print("Invalid choice. Try again.")
