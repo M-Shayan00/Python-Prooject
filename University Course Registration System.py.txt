@@ -1,0 +1,121 @@
+while True:
+    print("\n========== University Course Registration System ==========")
+    print("1. Add Registration")
+    print("2. Show All Registrations")
+    print("3. Search Registration")
+    print("4. Delete Registration")
+    print("5. Exit")
+    
+    choice = input("Enter your choice: ")
+    
+    # ---------------- ADD REGISTRATION ----------------
+    if choice == "1":
+        student_id = input("Enter Student ID: ")
+        student_name = input("Enter Student Name: ")
+        course_name = input("Enter Course Name: ")
+        semester = input("Enter Semester: ")
+        
+        file = open("registrations.txt", "a")
+        file.write(student_id + "," + student_name + "," + course_name + "," + semester + "\n")
+        file.close()
+        
+        print("Registration added successfully!")
+    
+    
+    # ---------------- SHOW ALL REGISTRATIONS ----------------
+    elif choice == "2":
+        try:
+            file = open("registrations.txt", "r")
+            data = file.read()
+            file.close()
+            
+            if data == "":
+                print("No registrations found.")
+            else:
+                print("\nID | Name | Course | Semester")
+                print("--------------------------------------")
+                
+                lines = data.split("\n")
+                i = 0
+                while i < len(lines):
+                    if lines[i] != "":
+                        parts = lines[i].split(",")
+                        print(parts[0] + " | " + parts[1] + " | " + parts[2] + " | " + parts[3])
+                    i = i + 1
+        
+        except:
+            print("No file found yet.")
+    
+    
+    # ---------------- SEARCH REGISTRATION ----------------
+    elif choice == "3":
+        search_id = input("Enter Student ID to search: ")
+        found = False
+        
+        try:
+            file = open("registrations.txt", "r")
+            lines = file.readlines()
+            file.close()
+            
+            i = 0
+            while i < len(lines):
+                parts = lines[i].strip().split(",")
+                
+                if parts[0] == search_id:
+                    print("\nRegistration Found:")
+                    print("Student ID:", parts[0])
+                    print("Name:", parts[1])
+                    print("Course:", parts[2])
+                    print("Semester:", parts[3])
+                    found = True
+                    break
+                i = i + 1
+            
+            if found == False:
+                print("Registration not found.")
+        
+        except:
+            print("No records available.")
+    
+    
+    # ---------------- DELETE REGISTRATION ----------------
+    elif choice == "4":
+        delete_id = input("Enter Student ID to delete: ")
+        deleted = False
+        
+        try:
+            file = open("registrations.txt", "r")
+            lines = file.readlines()
+            file.close()
+            
+            file = open("registrations.txt", "w")
+            
+            i = 0
+            while i < len(lines):
+                parts = lines[i].strip().split(",")
+                
+                if parts[0] == delete_id:
+                    deleted = True
+                else:
+                    file.write(lines[i])
+                
+                i = i + 1
+            
+            file.close()
+            
+            if deleted:
+                print("Registration deleted successfully!")
+            else:
+                print("Registration not found.")
+        
+        except:
+            print("No records available.")
+    
+    
+    # ---------------- EXIT ----------------
+    elif choice == "5":
+        print("Exiting system... Goodbye Shayan")
+        break
+    
+    else:
+        print("Invalid choice. Try again.")
